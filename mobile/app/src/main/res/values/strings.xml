@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Secure Messaging</string>
+    <string name="chat_hint">Type a message...</string>
+    <string name="send">Send</string>
+    <string name="settings">Settings</string>
+    <string name="enable_relay">Enable Message Relaying</string>
+    <string name="relay_description">Allow this device to forward messages for other users</string>
+</resources>
+

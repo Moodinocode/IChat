@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+backend/node_modules/
+
+# Environment variables
+.env
+backend/.env
+
+# Build outputs
+dist/
+build/
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Android
+mobile/.gradle/
+mobile/app/build/
+mobile/.idea/
+mobile/local.properties
+mobile/*.iml
+
