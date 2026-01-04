@@ -14,6 +14,9 @@ interface MessageDao {
     @Query("SELECT * FROM messages WHERE recipientId = :recipientId ORDER BY timestamp ASC")
     fun getMessagesForRecipient(recipientId: String): Flow<List<Message>>
 
+    @Query("SELECT * FROM messages WHERE (senderId = :userId AND recipientId = :contactId) OR (senderId = :contactId AND recipientId = :userId) ORDER BY timestamp ASC")
+    fun getMessagesForConversation(userId: String, contactId: String): Flow<List<Message>>
+
     @Query("SELECT * FROM messages WHERE deliveryStatus = :status")
     fun getMessagesByStatus(status: DeliveryStatus): Flow<List<Message>>
 
