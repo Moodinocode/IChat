@@ -1,54 +1,48 @@
-/**
- * Message Model
- * Represents a message in the system with deduplication support
- */
+const mongoose = require("mongoose");
 
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const MessageSchema = new mongoose.Schema(
+  {
+    uuid: {
+      type: String,
+      required: true,
+      unique: true,
+      immutable: true
+    },
 
-const messageSchema = new Schema({
-  messageId: {
-    type: String,
-    required: true,
-    unique: true,
-    index: true,
-  },
-  senderId: {
-    type: String,
-    required: true,
-    index: true,
-  },
-  recipientId: {
-    type: String,
-    required: true,
-    index: true,
-  },
-  encryptedContent: {
-    type: String,
-    required: true,
-  },
-  timestamp: {
-    type: Date,
-    default: Date.now,
-    index: true,
-  },
-  deliveryStatus: {
-    type: String,
-    enum: ['pending', 'delivered', 'read'],
-    default: 'pending',
-    index: true,
-  },
-  deliveredAt: {
-    type: Date,
-  },
-  readAt: {
-    type: Date,
-  },
-});
+    senderDeviceId: {
+      type: String,
+      required: true
+    },
 
-// Compound index for efficient queries
-messageSchema.index({ recipientId: 1, deliveryStatus: 1 });
-messageSchema.index({ senderId: 1, timestamp: -1 });
+    receiverDeviceId: {
+      type: String,
+      required: true
+    },
 
-module.exports = mongoose.model('Message', messageSchema);
+    encryptedPayload: {
+      type: String,
+      required: true
+    },
 
+    ttl: {
+      type: Number,
+      required: true
+    },
+
+    visitedDevices: {
+      type: [String],
+      default: []
+    },
+
+    uploadedFromOffline: {
+      type: Boolean,
+      default: false
+    }
+  },
+  { timestamps: true }
+);
+
+// Strong deduplication guarantee
+MessageSchema.index({ uuid: 1 }, { unique: true });
+
+module.exports = mongoose.model("Message", MessageSchema);
